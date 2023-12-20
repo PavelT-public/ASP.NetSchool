@@ -1,0 +1,40 @@
+﻿@using ASP.NETSchool.Controllers
+@using ASP.NETSchool.Services
+@using ASP.NETSchool.Models
+@model IEnumerable<Grade>
+
+<h3>List of all grades</h3>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+{
+    <a class="btn btn-sm btn-outline-primary mb-2" asp-action="Create">Create new</a>
+}
+
+
+
+@foreach (Grade grade in Model)
+{
+    if (User.IsInRole("Student"))
+    {
+        <div class="border border-1 border-dark rounded p-2">
+            <p>@grade.Student.Id</p>
+            <p>@grade.Student.FirstName @grade.Student.LastName</p>
+            <p>@grade.Subject.Name - @grade.Topic, grade: @grade.Mark </p>
+            <p>@grade.Date.ToShortDateString()</p>
+        </div>
+    }
+    else
+    {
+        <div class="border border-1 border-dark rounded p-2">
+            <p>@grade.Student.Id</p>
+            <p>@grade.Student.FirstName @grade.Student.LastName</p>
+            <p>@grade.Subject.Name - @grade.Topic, grade: @grade.Mark </p>
+            <p>@grade.Date.ToShortDateString()</p>
+
+            <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@grade.Id">Edit</a>
+            <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@grade.Id">Delete</a>
+
+        </div>
+    }
+
+}
